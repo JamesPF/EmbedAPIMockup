@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <meta charset="utf-8"/>
+		<title>Google Analytics Embed API Test</title>
+
+		<script>
+			(function(w,d,s,g,js,fs){
+			  g=w.gapi||(w.gapi={});g.analytics={q:[],ready:function(f){this.q.push(f);}};
+			  js=d.createElement(s);fs=d.getElementsByTagName(s)[0];
+			  js.src='https://apis.google.com/js/platform.js';
+			  fs.parentNode.insertBefore(js,fs);js.onload=function(){g.load('analytics');};
+			}(window,document,'script'));
+			</script>
+
+			<style type="text/css">
+			  .analytics-container {
+			  	width: 50%;
+			  	margin: 0 auto;
+			  }
+
+			  #chart-container {
+			  	display: block;
+			  	margin: 2rem auto;
+			  	width: 100%;
+			  	height: auto;
+			  }
+
+			  #embed-api-auth-container:nth-child(1) {
+			  	display: none;
+			  }
+			</style>
+	</head>
+	<body>
+	  <h1>Mobile</h1>
+	  <div class="analytics-container">
+	    <div id="embed-api-auth-container"></div>
+			<div id="chart-container"></div>
+			<div id="view-selector-container"></div>
+		</div>
+	</body>
+
+</html>
