@@ -29,6 +29,10 @@
 			  #embed-api-auth-container:nth-child(1) {
 			  	display: none;
 			  }
+
+			  #view-selector-container {
+			  	display: none;
+			  }
 			</style>
 	</head>
 	<body>
@@ -42,6 +46,7 @@
 	  <div class="analytics-container">
 	    <div id="embed-api-auth-container"></div>
 			<div id="pie-container"></div>
+			<div id="traffic-list-container"></div>
 			<div id="view-selector-container"></div>
 		</div>
 	</body>
@@ -90,7 +95,25 @@
 		      type: 'PIE',
 		      options: {
 		        width: '100%',
-		        pieHole: 4/9
+		        pieHole: 2/9
+		      }
+		    }
+		  });
+
+		  var trafficList = new gapi.analytics.googleCharts.DataChart({
+		    query: {
+		      metrics: 'ga:sessions',
+		      dimensions: 'ga:fullReferrer',
+		      'start-date': '30daysAgo',
+		      'end-date': 'yesterday',
+		      'max-results': 10,
+		      sort: '-ga:sessions'
+		    },
+		    chart: {
+		      container: 'traffic-list-container',
+		      type: 'TABLE',
+		      options: {
+		        width: '100%'
 		      }
 		    }
 		  });
@@ -100,6 +123,10 @@
 		   */
 		  viewSelector.on('change', function(ids) {
 		    dataPie.set({query: {ids: ids}}).execute();
+		  });
+
+		  viewSelector.on('change', function(ids) {
+		    trafficList.set({query: {ids: ids}}).execute();
 		  });
 		});
 	</script>

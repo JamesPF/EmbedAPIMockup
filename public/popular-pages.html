@@ -29,6 +29,10 @@
 			  #embed-api-auth-container:nth-child(1) {
 			  	display: none;
 			  }
+
+			  #view-selector-container {
+			  	display: none;
+			  }
 			</style>
 	</head>
 	<body>
@@ -41,7 +45,8 @@
 	  <h1>Most Popular Pages</h1>
 	  <div class="analytics-container">
 	    <div id="embed-api-auth-container"></div>
-			<div id="top-pages-container"></div>
+	    <div id="top-pages-pie"></div>
+			<div id="top-pages-list"></div>
 			<div id="view-selector-container"></div>
 		</div>
 	</body>
@@ -76,16 +81,36 @@
 		   * Create the first DataChart for top countries over the past 30 days.
 		   * It will be rendered inside an element with the id "chart-1-container".
 		   */
-		  var topPages = new gapi.analytics.googleCharts.DataChart({
+		   var topPagesPie = new gapi.analytics.googleCharts.DataChart({
 		    query: {
 		      metrics: 'ga:entrances',
 		      dimensions: 'ga:landingPagePath',
 		      'start-date': '30daysAgo',
 		      'end-date': 'yesterday',
+		      'max-results': 10,
 		      sort: '-ga:entrances'
 		    },
 		    chart: {
-		      container: 'top-pages-container',
+		      container: 'top-pages-pie',
+		      type: 'PIE',
+		      options: {
+		        width: '100%',
+		        pieHole: 2/9
+		      }
+		    }
+		  });
+
+		  var topPagesList = new gapi.analytics.googleCharts.DataChart({
+		    query: {
+		      metrics: 'ga:entrances',
+		      dimensions: 'ga:landingPagePath',
+		      'start-date': '30daysAgo',
+		      'end-date': 'yesterday',
+		      'max-results': 20,
+		      sort: '-ga:entrances'
+		    },
+		    chart: {
+		      container: 'top-pages-list',
 		      type: 'TABLE',
 		      options: {
 		        width: '100%'
@@ -97,7 +122,11 @@
 		   * Update the topPages when the first view selecter is changed.
 		   */
 		  viewSelector.on('change', function(ids) {
-		    topPages.set({query: {ids: ids}}).execute();
+		    topPagesPie.set({query: {ids: ids}}).execute();
+		  });
+
+		  viewSelector.on('change', function(ids) {
+		    topPagesList.set({query: {ids: ids}}).execute();
 		  });
 
 		});
