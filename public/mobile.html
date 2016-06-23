@@ -102,8 +102,7 @@
 		  var desktopMobileComparison = new gapi.analytics.googleCharts.DataChart({
 		    query: {
 		      metrics: 'ga:sessions',
-		      filters: 'ga:deviceCategory==mobile',
-		      dimensions: 'ga:date',
+		      dimensions: 'ga:deviceCategory',
 		      'start-date': '30daysAgo',
 		      'end-date': 'yesterday'
 		    },

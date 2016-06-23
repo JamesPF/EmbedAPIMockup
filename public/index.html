@@ -47,6 +47,11 @@
 	    <div id="embed-api-auth-container"></div>
 			<div id="chart-container"></div>
 			<div id="list-container"></div>
+			<br>
+			<div id="browser-container"></div>
+			<br>
+			<div id="os-container"></div>
+			<br>
 			<div id="view-selector-container"></div>
 		</div>
 	</body>
@@ -84,7 +89,7 @@
 		   */
 		  var dataChart = new gapi.analytics.googleCharts.DataChart({
 		    query: {
-		      metrics: 'ga:sessions',
+		      metrics: 'ga:sessions,ga:users,ga:pageviews',
 		      dimensions: 'ga:date',
 		      'start-date': '30daysAgo',
 		      'end-date': 'yesterday'
@@ -100,13 +105,51 @@
 
 		  var dataList = new gapi.analytics.googleCharts.DataChart({
 		    query: {
-		      metrics: 'ga:sessions',
+		      metrics: 'ga:sessions,ga:users,ga:pageviews',
 		      dimensions: 'ga:date',
 		      'start-date': '30daysAgo',
 		      'end-date': 'yesterday'
 		    },
 		    chart: {
 		      container: 'list-container',
+		      type: 'TABLE',
+		      options: {
+		        width: '100%'
+		      }
+		    }
+		  });
+
+		  var browserList = new gapi.analytics.googleCharts.DataChart({
+		    query: {
+		      metrics: 'ga:sessions',
+		      dimensions: 'ga:browser',
+		      'start-date': '30daysAgo',
+		      'end-date': 'yesterday',
+		      'max-results': 10,
+		      sort: '-ga:sessions',
+
+		    },
+		    chart: {
+		      container: 'browser-container',
+		      type: 'TABLE',
+		      options: {
+		        width: '100%'
+		      }
+		    }
+		  });
+
+		  var osList = new gapi.analytics.googleCharts.DataChart({
+		    query: {
+		      metrics: 'ga:sessions',
+		      dimensions: 'ga:operatingSystem',
+		      'start-date': '30daysAgo',
+		      'end-date': 'yesterday',
+		      'max-results': 5,
+		      sort: '-ga:sessions',
+
+		    },
+		    chart: {
+		      container: 'os-container',
 		      type: 'TABLE',
 		      options: {
 		        width: '100%'
@@ -124,6 +167,14 @@
 
 		  viewSelector.on('change', function(ids) {
 		    dataList.set({query: {ids: ids}}).execute();
+		  });
+
+		  viewSelector.on('change', function(ids) {
+		    browserList.set({query: {ids: ids}}).execute();
+		  });
+
+		  viewSelector.on('change', function(ids) {
+		    osList.set({query: {ids: ids}}).execute();
 		  });
 
 		});
