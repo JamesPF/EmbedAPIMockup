@@ -38,16 +38,14 @@
 	  	<li><a href="referrers.html">Referrers</a></li>
 	  	<li><a href="popular-pages.html">Popular Pages</a></li>
 	  </nav>
-	  <h1>Mobile</h1>
+	  <h1>Top Referring Sites</h1>
 	  <div class="analytics-container">
 	    <div id="embed-api-auth-container"></div>
-			<div id="chart-container"></div>
-			<div id="comparison-container"></div>
+			<div id="pie-container"></div>
 			<div id="view-selector-container"></div>
 		</div>
 	</body>
 	<script>
-
 		gapi.analytics.ready(function() {
 
 		  /**
@@ -62,68 +60,47 @@
 
 
 		  /**
-		   * Create a new ViewSelector instance to be rendered inside of an
-		   * element with the id "view-selector-container".
+		   * Create a ViewSelector for the first view to be rendered inside of an
+		   * element with the id "view-selector-1-container".
 		   */
 		  var viewSelector = new gapi.analytics.ViewSelector({
 		    container: 'view-selector-container'
 		  });
 
-		  // Render the view selector to the page.
+
+		  // Render both view selectors to the page.
 		  viewSelector.execute();
 
 
 		  /**
-		   * Create a new DataChart instance with the given query parameters
-		   * and Google chart options. It will be rendered inside an element
-		   * with the id "chart-container".
+		   * Create the first DataChart for top countries over the past 30 days.
+		   * It will be rendered inside an element with the id "chart-1-container".
 		   */
-		  var dataChart = new gapi.analytics.googleCharts.DataChart({
+		  var dataPie = new gapi.analytics.googleCharts.DataChart({
 		    query: {
 		      metrics: 'ga:sessions',
-		      filters: 'ga:deviceCategory==mobile',
-		      dimensions: 'ga:date',
+		      dimensions: 'ga:fullReferrer',
 		      'start-date': '30daysAgo',
-		      'end-date': 'yesterday'
+		      'end-date': 'yesterday',
+		      'max-results': 6,
+		      sort: '-ga:sessions'
 		    },
 		    chart: {
-		      container: 'chart-container',
-		      type: 'LINE',
+		      container: 'pie-container',
+		      type: 'PIE',
 		      options: {
-		        width: '100%'
+		        width: '100%',
+		        pieHole: 4/9
 		      }
 		    }
 		  });
-
-		  var desktopMobileComparison = new gapi.analytics.googleCharts.DataChart({
-		    query: {
-		      metrics: 'ga:sessions',
-		      filters: 'ga:deviceCategory==mobile',
-		      dimensions: 'ga:date',
-		      'start-date': '30daysAgo',
-		      'end-date': 'yesterday'
-		    },
-		    chart: {
-		      container: 'comparison-container',
-		      type: 'TABLE',
-		      options: {
-		        width: '100%'
-		      }
-		    }
-		  });
-
 
 		  /**
-		   * Render the dataChart on the page whenever a new view is selected.
+		   * Update the dataPie when the first view selecter is changed.
 		   */
 		  viewSelector.on('change', function(ids) {
-		    dataChart.set({query: {ids: ids}}).execute();
+		    dataPie.set({query: {ids: ids}}).execute();
 		  });
-
-		  viewSelector.on('change', function(ids) {
-		    desktopMobileComparison.set({query: {ids: ids}}).execute();
-		  });
-
 		});
 	</script>
 </html>
