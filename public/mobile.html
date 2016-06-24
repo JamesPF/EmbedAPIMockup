@@ -47,6 +47,12 @@
 	    <div id="embed-api-auth-container"></div>
 			<div id="chart-container"></div>
 			<div id="comparison-container"></div>
+			<br>
+			<br>
+			<div id="desktop-os-container"></div>
+			<br>
+			<br>
+			<div id="mobile-os-container"></div>
 			<div id="view-selector-container"></div>
 		</div>
 	</body>
@@ -115,6 +121,42 @@
 		    }
 		  });
 
+		  var desktopOS = new gapi.analytics.googleCharts.DataChart({
+		    query: {
+		      metrics: 'ga:sessions',
+		      dimensions: 'ga:operatingSystem',
+		      'start-date': '30daysAgo',
+		      'end-date': 'yesterday',
+		      filters: 'ga:operatingSystem==Windows,ga:operatingSystem==Macintosh,ga:operatingSystem==Linux,ga:operatingSystem==Chrome OS',
+		      sort: '-ga:sessions'
+		    },
+		    chart: {
+		      container: 'desktop-os-container',
+		      type: 'TABLE',
+		      options: {
+		        width: '100%'
+		      }
+		    }
+		  });
+
+		  var mobileOS = new gapi.analytics.googleCharts.DataChart({
+		    query: {
+		      metrics: 'ga:sessions',
+		      dimensions: 'ga:operatingSystem',
+		      'start-date': '30daysAgo',
+		      'end-date': 'yesterday',
+		      filters: 'ga:operatingSystem==iOS,ga:operatingSystem==Android,ga:operatingSystem==Windows Phone',
+		      sort: '-ga:sessions'
+		    },
+		    chart: {
+		      container: 'mobile-os-container',
+		      type: 'TABLE',
+		      options: {
+		        width: '100%'
+		      }
+		    }
+		  });
+
 
 		  /**
 		   * Render the dataChart on the page whenever a new view is selected.
@@ -125,6 +167,14 @@
 
 		  viewSelector.on('change', function(ids) {
 		    desktopMobileComparison.set({query: {ids: ids}}).execute();
+		  });
+
+		  viewSelector.on('change', function(ids) {
+		    desktopOS.set({query: {ids: ids}}).execute();
+		  });
+
+		  viewSelector.on('change', function(ids) {
+		    mobileOS.set({query: {ids: ids}}).execute();
 		  });
 
 		});
