@@ -11,29 +11,8 @@
 			  js.src='https://apis.google.com/js/platform.js';
 			  fs.parentNode.insertBefore(js,fs);js.onload=function(){g.load('analytics');};
 			}(window,document,'script'));
-			</script>
-
-			<style type="text/css">
-			  .analytics-container {
-			  	width: 50%;
-			  	margin: 0 auto;
-			  }
-
-			  #chart-container {
-			  	display: block;
-			  	margin: 2rem auto;
-			  	width: 100%;
-			  	height: auto;
-			  }
-
-			  #embed-api-auth-container:nth-child(1) {
-			  	display: none;
-			  }
-
-			  #view-selector-container {
-			  	display: none;
-			  }
-			</style>
+		</script>
+		<link rel="stylesheet" type="text/css" href="css/styles.css">
 	</head>
 	<body>
 	  <nav>
@@ -50,85 +29,6 @@
 			<div id="view-selector-container"></div>
 		</div>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script type="text/javascript" src="js/referrers.js"></script>
 	</body>
-	<script>
-		gapi.analytics.ready(function() {
-
-		  /**
-		   * Authorize the user immediately if the user has already granted access.
-		   * If no access has been created, render an authorize button inside the
-		   * element with the ID "embed-api-auth-container".
-		   */
-		  gapi.analytics.auth.authorize({
-		    container: 'embed-api-auth-container',
-		    clientid: '821892989006-v056tctjqf6jodnnabs0aqmpftdfjp5o.apps.googleusercontent.com'
-		  });
-
-
-		  /**
-		   * Create a ViewSelector for the first view to be rendered inside of an
-		   * element with the id "view-selector-1-container".
-		   */
-		  var viewSelector = new gapi.analytics.ViewSelector({
-		    container: 'view-selector-container'
-		  });
-
-
-		  // Render both view selectors to the page.
-		  viewSelector.execute();
-
-
-		  /**
-		   * Create the first DataChart for top countries over the past 30 days.
-		   * It will be rendered inside an element with the id "chart-1-container".
-		   */
-		  var dataPie = new gapi.analytics.googleCharts.DataChart({
-		    query: {
-		      metrics: 'ga:sessions',
-		      dimensions: 'ga:fullReferrer',
-		      'start-date': '30daysAgo',
-		      'end-date': 'yesterday',
-		      'max-results': 6,
-		      sort: '-ga:sessions'
-		    },
-		    chart: {
-		      container: 'pie-container',
-		      type: 'PIE',
-		      options: {
-		        width: '100%',
-		        pieHole: 2/9
-		      }
-		    }
-		  });
-
-		  var trafficList = new gapi.analytics.googleCharts.DataChart({
-		    query: {
-		      metrics: 'ga:sessions',
-		      dimensions: 'ga:fullReferrer',
-		      'start-date': '30daysAgo',
-		      'end-date': 'yesterday',
-		      'max-results': 10,
-		      sort: '-ga:sessions'
-		    },
-		    chart: {
-		      container: 'traffic-list-container',
-		      type: 'TABLE',
-		      options: {
-		        width: '100%'
-		      }
-		    }
-		  });
-
-		  /**
-		   * Update the dataPie when the first view selecter is changed.
-		   */
-		  viewSelector.on('change', function(ids) {
-		    dataPie.set({query: {ids: ids}}).execute();
-		  });
-
-		  viewSelector.on('change', function(ids) {
-		    trafficList.set({query: {ids: ids}}).execute();
-		  });
-		});
-	</script>
 </html>
