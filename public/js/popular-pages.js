@@ -15,13 +15,13 @@ gapi.analytics.ready(function() {
    * Create a ViewSelector for the first view to be rendered inside of an
    * element with the id "view-selector-1-container".
    */
-  var viewSelector = new gapi.analytics.ViewSelector({
-    container: 'view-selector-container'
+  var topPagesViewSelector = new gapi.analytics.ViewSelector({
+    container: 'top-pages-view-selector-container'
   });
 
 
   // Render both view selectors to the page.
-  viewSelector.execute();
+  topPagesViewSelector.execute();
 
 
   /**
@@ -67,7 +67,7 @@ gapi.analytics.ready(function() {
   });
 
   // Render the above items to the page
-  viewSelector.on('change', function(ids) {
+  topPagesViewSelector.on('change', function(ids) {
     topPagesPie.set({query: {ids: ids}}).execute();
     topPagesList.set({query: {ids: ids}}).execute();
   });

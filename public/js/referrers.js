@@ -15,20 +15,20 @@ gapi.analytics.ready(function() {
    * Create a ViewSelector for the first view to be rendered inside of an
    * element with the id "view-selector-1-container".
    */
-  var viewSelector = new gapi.analytics.ViewSelector({
-    container: 'view-selector-container'
+  var referrersViewSelector = new gapi.analytics.ViewSelector({
+    container: 'referrers-view-selector-container'
   });
 
 
   // Render both view selectors to the page.
-  viewSelector.execute();
+  referrersViewSelector.execute();
 
 
   /**
    * Create the first DataChart for top countries over the past 30 days.
    * It will be rendered inside an element with the id "chart-1-container".
    */
-  var dataPie = new gapi.analytics.googleCharts.DataChart({
+  var referrersDataPie = new gapi.analytics.googleCharts.DataChart({
     query: {
       metrics: 'ga:sessions',
       dimensions: 'ga:fullReferrer',
@@ -48,7 +48,7 @@ gapi.analytics.ready(function() {
   });
 
   // Create trafficList in the same manner
-  var trafficList = new gapi.analytics.googleCharts.DataChart({
+  var referrersTrafficList = new gapi.analytics.googleCharts.DataChart({
     query: {
       metrics: 'ga:sessions',
       dimensions: 'ga:fullReferrer',
@@ -67,8 +67,8 @@ gapi.analytics.ready(function() {
   });
 
   // Render the above items to the page
-  viewSelector.on('change', function(ids) {
-    dataPie.set({query: {ids: ids}}).execute();
-    trafficList.set({query: {ids: ids}}).execute();
+  referrersViewSelector.on('change', function(ids) {
+    referrersDataPie.set({query: {ids: ids}}).execute();
+    referrersTrafficList.set({query: {ids: ids}}).execute();
   });
 });

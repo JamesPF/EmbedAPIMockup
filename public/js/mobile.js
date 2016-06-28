@@ -15,12 +15,12 @@ gapi.analytics.ready(function() {
    * Create a new ViewSelector instance to be rendered inside of an
    * element with the id "view-selector-container".
    */
-  var viewSelector = new gapi.analytics.ViewSelector({
-    container: 'view-selector-container'
+  var mobileViewSelector = new gapi.analytics.ViewSelector({
+    container: 'mobile-view-selector-container'
   });
 
   // Render the view selector to the page.
-  viewSelector.execute();
+  mobileViewSelector.execute();
 
 
   /**
@@ -28,7 +28,7 @@ gapi.analytics.ready(function() {
    * and Google chart options. It will be rendered inside an element
    * with the id "chart-container".
    */
-  var dataChart = new gapi.analytics.googleCharts.DataChart({
+  var mobileDataChart = new gapi.analytics.googleCharts.DataChart({
     query: {
       metrics: 'ga:sessions',
       filters: 'ga:deviceCategory==mobile',
@@ -102,8 +102,8 @@ gapi.analytics.ready(function() {
 
 
   // Render the above items to the page
-  viewSelector.on('change', function(ids) {
-    dataChart.set({query: {ids: ids}}).execute();
+  mobileViewSelector.on('change', function(ids) {
+    mobileDataChart.set({query: {ids: ids}}).execute();
     desktopMobileComparison.set({query: {ids: ids}}).execute();
     desktopOS.set({query: {ids: ids}}).execute();
     mobileOS.set({query: {ids: ids}}).execute();
